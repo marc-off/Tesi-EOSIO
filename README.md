@@ -14,32 +14,43 @@ L'obiettivo di questa tesi è migliorare il sistema di gestione dei permessi bas
 
 ## Guida
 
+Placeholder text
+
+### Struttura della tabella 
+
+La struttura del database ha la seguente forma:
+
+| Chiave primaria | Secondary key | Owner | Owner_Permission | Account | Account_Permission | Weight  | Attributes |
+| --------------- | ------------- | ----- | ---------------- | ------- | ------------------ | ------- | ---------- |
+
 ### Aggiungere o modificare un record nel database delle tabelle di autorità
 
 Per aggiungere un record in una determinata tabella di autorità all'interno del database, il proprietario dell'account deve eseguire
 il seguente comando:
 
 ```
-cleos push action authadmin upsert `data` -p `account`@`perm`
+cleos push action authadmin upsert data -p account@perm
 ```
 
 Dove: 
 
-1) `authadmin` è l'account sul quale è deployato lo smart contract; 
+1) `authadmin` è l'account sul quale è deployato lo smart contract
 
-2) `upsert` è l'azione relativa allo smart contract;
+2) `upsert` è l'azione relativa allo smart contract
 
 3) `data` è il record che il proprietario aggiunge al database, di conseguenza dovrà fornire i seguenti argomenti:
 
-    1) Nome del proprietario della tabella di autorità
+    - Il nome del proprietario della tabella di autorità
 
-    2) Il permesso al quale è riferita la tabella di autorità
+    - Il nome del permesso al quale è riferita la tabella di autorità
 
-    3) L'account al quale l'autorità è conferita, nel contesto della suddetta tabella di autorità
+    - Il nome dell'account al quale l'autorità è conferita, nel contesto della suddetta tabella di autorità
 
-    4) Il permesso dell'account al quale l'autorità è conferita, nel contesto della suddetta tabella di autorità
+    - Il nome del permesso dell'account al quale l'autorità è conferita, nel contesto della suddetta tabella di autorità
 
-    5) Il peso dell'autorità conferita dal proprietario al suddetto account
+    - Il peso dell'autorità conferita dal proprietario all'account
+
+    - Gli attributi (formato JSON) assegnato dal proprietario all'account al quale l'autorità è conferita
 
 # English translation 🏴󠁧󠁢󠁥󠁮󠁧󠁿
 
@@ -52,7 +63,14 @@ The goal of this thesis is to enhance the role-based permission management syste
 
 ## Guide 
 
-### Adding or modifying a record in the authority tables database 
+Placeholder text
+
+### Table structure
+
+| Primary key   | Secondary key | Owner | Owner_Permission | Account | Account_Permission | Weight  | Attributes |
+| ------------- | ------------- | ----- | ---------------- | ------- | ------------------ | ------- | ---------- |
+
+#### Adding or modifying a record in the authority tables database 
 
 In way to add a record in a specific authority table in the database, the owner of the account has to execute the following command:
 
@@ -62,18 +80,20 @@ cleos push action authadmin upsert `data` -p `account`@`perm`
 
 Where: 
 
-1) `authadmin` is the account to which the smart contract is deployed to; 
+1) `authadmin` is the account to which the smart contract is deployed to
 
-2) `upsert` is the action related to the smart contract; 
+2) `upsert` is the action related to the smart contract
 
 3) `data` is the record that the owner adds to the database, hence it has to provide the following arguments: 
 
-    1) Name of the owner of the authority table 
+    - Name of the owner of the authority table 
 
-    2) Permission to which the authority table is referred to
+    - Name of the permission to which the authority table is referred to
 
-    3) Account to which authority is conferred, in context of the authority table
+    - Name of the account to which authority is conferred, in context of the authority table
 
-    4) Permission of the account to which authority is conferred, in context of such authority table
+    - Name of the permission of the account to which authority is conferred, in context of such authority table
 
-    5) Weight of the authority conferred by the owner to such account
+    - Weight of the authority conferred by the owner to such account
+
+    - The attributes (JSON format) assigned by the owner to the account to which authority is conferred
