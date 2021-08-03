@@ -13,3 +13,5 @@ Il software EOS.IO introduce una nuova generazione di architettura blockchain pr
 L'obiettivo di questa tesi è migliorare il sistema di gestione dei permessi basato sui ruoli fornito da EOS.IO. In particolare, questo lavoro prevede la definizione e lo sviluppo di uno strumento di uso generale per la gestione dei permessi delle DApp. Lo strumento deve supportare almeno una forma di base comune di controllo degli accessi (come gruppi gerarchici e autorizzazioni multiple).
 
 ## Guida 
+
+Prova
