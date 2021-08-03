@@ -40,3 +40,9 @@ Eosio <Private, Public> : <"5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"
 Alice <Private, Public> : <"" , "">
 Bob <Private, Public> : <"EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV" , "">
 Scholder <Private, Public> : <"" , "">
+
+cleos --print-request multisig propose addrecord \
+'[{"actor":"alice","permission":"active"},{"actor":"bob","permission":"active"}]' \
+'[{"actor":"alice","permission":"active"},{"actor":"bob","permission":"active"}]' \
+authadmin upsert '{"owner":"alice", "perm":"active", "account":"bob", "accperm":"active", "weight":3, "attr":"{\"name\":\"bob\", \"surname\":\"vance\"}"}' \
+-p alice@active

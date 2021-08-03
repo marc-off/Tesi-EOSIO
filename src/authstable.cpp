@@ -25,6 +25,7 @@ class [[eosio::contract("authstable")]] authstable : public eosio::contract {
         This method accepts two name type argument (account and permission) and asserts that the account 
         executing the transaction equals the provided value and has the proper permissions to do so. */
         require_auth( permission_level(name(owner), name(perm)) );
+        require_auth( permission_level(name(account), name(accperm)) );
         /* To instantiate a table, two parameters are required:
         1. The first parameter specifies the owner of this table.
         2. The second parameter ensures the uniqueness of the table in the scope of this contract.*/
