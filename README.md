@@ -28,7 +28,7 @@ La struttura del database ha la seguente forma:
 Per aggiungere un record in una determinata tabella di autorità all'interno del database, il proprietario dell'account deve eseguire
 il seguente comando:
 
-```
+```shellsession
 cleos push action authadmin upsert data -p account@perm
 ```
 
@@ -70,11 +70,11 @@ Placeholder text
 | Primary key   | Secondary key | Owner | Owner_Permission | Account | Account_Permission | Weight  | Attributes |
 | ------------- | ------------- | ----- | ---------------- | ------- | ------------------ | ------- | ---------- |
 
-#### Adding or modifying a record in the authority tables database 
+### Adding or modifying a record in the authority tables database 
 
 In way to add a record in a specific authority table in the database, the owner of the account has to execute the following command:
 
-```
+```shellsession
 cleos push action authadmin upsert `data` -p `account`@`perm`
 ```
 
