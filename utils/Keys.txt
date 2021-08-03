@@ -1,0 +1,42 @@
+Eosio private key: 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
+
+Private key: PW5JYABtXaYam7WiDixdRm9PeGorRwBmaoQuqtjcx96E6cq9eLMsJ
+Public key: EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
+
+Private key (2) : 5JBEo5mKURxLXx5SbAwkqTjifdxTKyCQH6ZaaAQB4ZEo7TgECLY
+Public key (2) : EOS6mMypJqtbyMryxpkfwmFjwMHqRNrWHTdUfTh15tMXMtnfQqR2S
+
+Private key (3) : 5KMqzxTjN7n9bQCmAkF6AVCevYGKRkCWoocAC8Ww5amtmX3nGB2
+Public key (3) : EOS6mMypJqtbyMryxpkfwmFjwMHqRNrWHTdUfTh15tMXMtnfQqR2S
+
+Private key (4) : 5Jm4aB8tjrvVQBNZX6vDqfhUwq5Ry5i2zmdMQBgKCdkNLatyN4Q
+Public key (4) : EOS5cuheoCv4BGKgckJN9PtyYJiyjUmUz1S1d3BgcqnNM8muSYHvt
+
+–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+ _       __      ____     __ 
+| |     / /___ _/ / /__  / /_
+| | /| / / __ `/ / / _ \/ __/
+| |/ |/ / /_/ / / /  __/ /_  
+|__/|__/\__,_/_/_/\___/\__/  
+
+
+Default Wallet : PW5JYABtXaYam7WiDixdRm9PeGorRwBmaoQuqtjcx96E6cq9eLMsJ
+MarcoWallet Wallet : PW5KUn2dRF89BqEAJM1nk3NsWiwhfpXaLiMR4QyMtb4vxxDKduTZL
+Defra Wallet : PW5KZ1n1A5TWRDZSBpsJVBQxMrdywFvbt47hn86Ap31mGE92Pqd6i
+
+
+–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+
+    ___                               __      
+   /   | ______________  __  ______  / /______
+  / /| |/ ___/ ___/ __ \/ / / / __ \/ __/ ___/
+ / ___ / /__/ /__/ /_/ / /_/ / / / / /_(__  ) 
+/_/  |_\___/\___/\____/\__,_/_/ /_/\__/____/  
+                                             
+
+Eosio <Private, Public> : <"5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3" , "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV">
+Alice <Private, Public> : <"" , "">
+Bob <Private, Public> : <"EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV" , "">
+Scholder <Private, Public> : <"" , "">

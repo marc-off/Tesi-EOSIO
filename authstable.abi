@@ -12,6 +12,10 @@
                     "type": "uint64"
                 },
                 {
+                    "name": "key_2",
+                    "type": "uint64"
+                },
+                {
                     "name": "owner",
                     "type": "string"
                 },
@@ -26,6 +30,10 @@
                 {
                     "name": "accperm",
                     "type": "string"
+                },
+                {
+                    "name": "weight",
+                    "type": "uint64"
                 },
                 {
                     "name": "attr",
@@ -56,6 +64,20 @@
             ]
         },
         {
+            "name": "erasetable",
+            "base": "",
+            "fields": [
+                {
+                    "name": "owner",
+                    "type": "string"
+                },
+                {
+                    "name": "perm",
+                    "type": "string"
+                }
+            ]
+        },
+        {
             "name": "upsert",
             "base": "",
             "fields": [
@@ -74,6 +96,10 @@
                 {
                     "name": "accperm",
                     "type": "string"
+                },
+                {
+                    "name": "weight",
+                    "type": "uint64"
                 },
                 {
                     "name": "attr",
@@ -108,6 +134,11 @@
         {
             "name": "erase",
             "type": "erase",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "erasetable",
+            "type": "erasetable",
             "ricardian_contract": ""
         },
         {
