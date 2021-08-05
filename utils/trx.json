@@ -1,0 +1,33 @@
+{
+  "expiration": "2021-08-05T13:21:57",
+  "ref_block_num": 39429,
+  "ref_block_prefix": 2885522779,
+  "max_net_usage_words": 0,
+  "max_cpu_usage_ms": 0,
+  "delay_sec": 0,
+  "context_free_actions": [],
+  "actions": [{
+      "account": "authadmin",
+      "name": "upsert",
+      "authorization": [{
+          "actor": "authadmin",
+          "permission": "custom"
+        }
+      ],
+      "data": {
+        "owner": "alice",
+        "perm": "active",
+        "account": "pluto",
+        "accperm": "active",
+        "weight": 3,
+        "attr": "{\"name\":\"bob\", \"surname\":\"vancethereal\"}"
+      },
+      "hex_data": "05616c6963650661637469766505706c75746f066163746976650300000000000000287b226e616d65223a22626f62222c20227375726e616d65223a2276616e63657468657265616c227d"
+    }
+  ],
+  "signatures": [
+    "SIG_K1_KdmkxAcGHpeQxfm7zSMgeLhsQYTSJ7ghn37ugi9xxF1Bnpp7Rb5XfZ9wJbaj2jf8N6i4N996A9NKAFWj16jdUMw8RVADvn",
+    "SIG_K1_JuvNSimHggYNytkobAUz8frJ55BZ9Fv1Cu6m3ktmqaHJsi2oDs83xNtngn7wizusacUgoY3ZvTRoZCG3ggxz3gDjRDLcLv"
+  ],
+  "context_free_data": []
+}

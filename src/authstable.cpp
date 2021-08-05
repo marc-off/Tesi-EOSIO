@@ -21,11 +21,7 @@ class [[eosio::contract("authstable")]] authstable : public eosio::contract {
     [[eosio::action]]
     void upsert( string owner, string perm, string account, string accperm, 
         uint64_t weight, string attr) {
-        /* Only the owner has control over their own record (authority table), as this contract is opt-in. 
-        This method accepts two name type argument (account and permission) and asserts that the account 
-        executing the transaction equals the provided value and has the proper permissions to do so. */
-        require_auth( permission_level(name(owner), name(perm)) );
-        require_auth( permission_level(name(account), name(accperm)) );
+        require_auth(permission_level( name("authadmin"), name("custom") ));
         /* To instantiate a table, two parameters are required:
         1. The first parameter specifies the owner of this table.
         2. The second parameter ensures the uniqueness of the table in the scope of this contract.*/
@@ -124,6 +120,19 @@ class [[eosio::contract("authstable")]] authstable : public eosio::contract {
         json j = json::parse(attr);
         print(j.dump());
     }
+    /*
+    void subscribe (string user, string perm) {
+    
+        transaction txn{};
+        txn.actions.emplace_back(
+            permission_level(name(user), name(perm)),
+            "eosio"_n,
+            ""
+        );
+
+    }
+    ...inserire un meccanismo per il quale authadmin aggiunge alla propria tabella di autorità
+    l'account alice con weight 1, per una threshold di 2*/
 
     private:
 

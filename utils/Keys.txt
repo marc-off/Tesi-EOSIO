@@ -1,16 +1,28 @@
 Eosio private key: 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
 
-Private key: PW5JYABtXaYam7WiDixdRm9PeGorRwBmaoQuqtjcx96E6cq9eLMsJ
+Private key: 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
 Public key: EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
 
 Private key (2) : 5JBEo5mKURxLXx5SbAwkqTjifdxTKyCQH6ZaaAQB4ZEo7TgECLY
 Public key (2) : EOS6mMypJqtbyMryxpkfwmFjwMHqRNrWHTdUfTh15tMXMtnfQqR2S
 
 Private key (3) : 5KMqzxTjN7n9bQCmAkF6AVCevYGKRkCWoocAC8Ww5amtmX3nGB2
-Public key (3) : EOS6mMypJqtbyMryxpkfwmFjwMHqRNrWHTdUfTh15tMXMtnfQqR2S
+Public key (3) : EOS5kH3J4eJt7WsLHSXJEys1fsGSEz22thKFx5bswimm1qXjDiEFi
 
 Private key (4) : 5Jm4aB8tjrvVQBNZX6vDqfhUwq5Ry5i2zmdMQBgKCdkNLatyN4Q
 Public key (4) : EOS5cuheoCv4BGKgckJN9PtyYJiyjUmUz1S1d3BgcqnNM8muSYHvt
+
+Private key (5) : 5JZcRw2Ytbyedsz9oQdXwfMT6Pv7Pg3fghd4Mg8sobotLcJKFix
+Public key (5) : EOS7ksbM7prgbH3kqoH21TKjUL5TMCBYPpbh624g2A3smoPhHwBac
+
+Private key (6) : 5JKeg97845aWRqGUnsxtodXFjwvJwgUVNqPHWwbhEzL38iw3YCA
+Public key (6) : EOS8ZyuJB4C83dcCR3G8aNXR1Uhya6pj7gxaztdMy3zyDLmbRPNPW
+
+Private key (7) : 5JF33iMJjKwN4Wd5Bm1xFNGoisBJ352n9pFqdjboj1VLp1BxEmB
+Public key (7) : EOS7e49M7kSQQ4coHrTFD5U4pBUYKe3Xhu4Sab6fjx93miUR7MmmS
+
+Private key (7) : 5KPXf2wHHZim4LN88oeVW1n8DFXYwWsoEbQ7vPZmS3sy5PLHJgv
+Public key (7) : EOS7mfB5wgex4RmaFYdesLho353AuN1Pkvo3DQJdhCH9sEV3rcE6B
 
 –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
@@ -36,13 +48,62 @@ Defra Wallet : PW5KZ1n1A5TWRDZSBpsJVBQxMrdywFvbt47hn86Ap31mGE92Pqd6i
 /_/  |_\___/\___/\____/\__,_/_/ /_/\__/____/  
                                              
 
-Eosio <Private, Public> : <"5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3" , "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV">
-Alice <Private, Public> : <"" , "">
-Bob <Private, Public> : <"EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV" , "">
-Scholder <Private, Public> : <"" , "">
+Eosio <Public, Private> : <"EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV", "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3">
+Alice <Public, Private> : <"EOS7e49M7kSQQ4coHrTFD5U4pBUYKe3Xhu4Sab6fjx93miUR7MmmS" , "5JF33iMJjKwN4Wd5Bm1xFNGoisBJ352n9pFqdjboj1VLp1BxEmB">
+Bob <Public, Private> : <"EOS7e49M7kSQQ4coHrTFD5U4pBUYKe3Xhu4Sab6fjx93miUR7MmmS" , "">
+Scholder <Public, Private> : <"" , "">
+
+
 
 cleos --print-request multisig propose addrecord \
 '[{"actor":"alice","permission":"active"},{"actor":"bob","permission":"active"}]' \
 '[{"actor":"alice","permission":"active"},{"actor":"bob","permission":"active"}]' \
 authadmin upsert '{"owner":"alice", "perm":"active", "account":"bob", "accperm":"active", "weight":3, "attr":"{\"name\":\"bob\", \"surname\":\"vance\"}"}' \
 -p alice@active
+
+cleos multisig propose add-record \
+'[{"actor":"pippo","permission":"active"},{"actor":"pluto","permission":"active"}]' \
+'[{"actor":"pippo","permission":"active"},{"actor":"pluto","permission":"active"}]' \
+authadmin upsert '{"owner":"pippo", "perm":"active", "account":"pluto", "accperm":"active", "weight":3, "attr":"{\"name\":\"bob\", \"surname\":\"vance\"}"}' \
+-p pippo@active
+
+cleos multisig propose addrecord \
+'[{"actor":"alice","permission":"active"},{"actor":"bob","permission":"active"}]' \
+'[{"actor":"alice","permission":"active"},{"actor":"bob","permission":"active"}]' \
+authadmin upsert '{"owner":"Alice", "perm":"active", "account":"bob", "accperm":"active", "weight":3, "attr":"{\"name\":\"bob\", \"surname\":\"vance\"}"}' \
+-p alice@active
+
+
+cleos set contract eosio.msig ./eosio.contracts/build/contracts/eosio.msig/ -p eosio.msig
+
+cleos push transaction -j '{"actions":[{"account":"authadmin","name":"upsert","authorization":[{"actor":"bob","permission":"active"}],"data":""}]}' -p bob@active
+
+cleos push transaction -j '{"actions": [{	\
+"account":"authadmin",  \
+"name":"upsert",  \
+"authorization":[{"actor":"Alice","permission":"active"}],  \
+"data":"{\"owner\":\"alice\", \"perm\":\"active\", \"account\":\"bob\", \"accperm\":\"active\", \"weight\":3, \"attr\":\"{\"name\":\"bob\", \"surname\":\"vance\"}\"}\"}"}]}' -p alice@active
+
+cleos push transaction "$(echo "$(cleos push action authadmin upsert '["bob", "active", "alice", "active", 3, "{\"name\":\"alice\", \"surname\":\"vance\"}"]' -d -p bob@active --return-packed)"
+
+
+cleos push transaction "$()" // This tells cleos that we are going to provide a raw transaction that is already signed and packed, and push it to the blockchain. The rest of the command is a one-liner that is forming the packed and signed multi-transaction json.
+
+
+echo "$(command1)" "$(command2)" | jq ... // The command inside the evaluator, will echo the output of the commands that follow it, then parse that through jq.
+
+
+The first transaction is created with the following:
+cleos push action authadmin upsert '["bob", "active", "alice", "active", 3, "{\"name\":\"alice\", \"surname\":\"vance\"}"]' -d -p bob@active --return-packed
+
+
+| jq -s '.[0] += .[0]' // So remember how we did echo "$(command1) $(command2) above, well jq can combine their output together. The parser command above is telling jq to combine the two transaction objects into a single array.
+
+
+cleos push transaction "$(echo "$(cleos push action authadmin upsert '["bob", "active", "alice", "active", 3, "{\"name\":\"alice\", \"surname\":\"vance\"}"]' -d -p bob@active --return-packed)" "$(cleos push action authadmin upsert '["bob", "active", "carl", "active", 3, "{\"name\":\"carl\", \"surname\":\"vance\"}"]' -d -p bob@active --return-packed)"| jq -s '.[0] += .[0]')
+
+cleos set account permission authadmin custom '{"threshold": 2,"keys": [{"key": "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV","weight": 2}],"accounts":[{"permission":{"actor":"alice","permission":"active"},"weight":1},{"permission":{"actor":"bob","permission":"active"},"weight”:1}]}' active -p authadmin
+
+'{"threshold": 2,"keys": [{"key": "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV","weight": 2}],"accounts":[{"permission":{"actor":"alice","permission":"active"},"weight":1},{"permission":{"actor":"bob","permission":"active"},"weight”:1},]}’
+
+cleos set account permission authadmin custom '{"threshold": 2, "keys": [{ "key": "EOS8ZyuJB4C83dcCR3G8aNXR1Uhya6pj7gxaztdMy3zyDLmbRPNPW", "weight": 1 }], "accounts": [{"permission":{"actor":"alice", "permission":"active"}, "weight":1}, {"permission": {"actor":"pluto", "permission":"active"}, "weight":1}], "waits": []}' active -p authadmin@active

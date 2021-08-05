@@ -1,0 +1,186 @@
+    __    __           __        __          _     
+   / /_  / /___  _____/ /_______/ /_  ____ _(_)___ 
+  / __ \/ / __ \/ ___/ //_/ ___/ __ \/ __ `/ / __ \
+ / /_/ / / /_/ / /__/ ,< / /__/ / / / /_/ / / / / /
+/_.___/_/\____/\___/_/|_|\___/_/ /_/\__,_/_/_/ /_/ 
+                                                      
+
+––––––––––––––– Play Blockchain (1) –––––––––––––––
+
+nodeos -e -p eosio \
+--plugin eosio::producer_plugin \
+--plugin eosio::producer_api_plugin \
+--plugin eosio::chain_api_plugin \
+--plugin eosio::http_plugin \
+--plugin eosio::history_plugin \
+--plugin eosio::history_api_plugin \
+--filter-on="*" \
+--access-control-allow-origin='*' \
+--contracts-console \
+--http-validate-host=false \
+--verbose-http-errors >> nodeos.log 2>&1 &
+
+
+––––––––––––– Replay Blockchain (1) –––––––––––––––
+
+nodeos -e -p eosio \
+--plugin eosio::producer_plugin \
+--plugin eosio::producer_api_plugin \
+--plugin eosio::chain_api_plugin \
+--plugin eosio::http_plugin \
+--plugin eosio::history_plugin \
+--plugin eosio::history_api_plugin \
+--filter-on="*" \
+--access-control-allow-origin='*' \
+--contracts-console \
+--http-validate-host=false \
+--verbose-http-errors  \
+--fix-reversible-blocks \
+--hard-replay-blockchain >> nodeos.log 2>&1 &
+
+
+–––––––––––––– Replay Blockchain (2) ––––––––––––––
+
+nodeos -e -p eosio \
+--plugin eosio::producer_plugin \
+--plugin eosio::producer_api_plugin \
+--plugin eosio::chain_api_plugin \
+--plugin eosio::http_plugin \
+--plugin eosio::history_plugin \
+--plugin eosio::history_api_plugin \
+--filter-on="*" \
+--access-control-allow-origin='*' \
+--contracts-console \
+--http-validate-host=false \
+--verbose-http-errors  \
+--fix-reversible-blocks \
+--hard-replay-blockchain \
+--delete-all-blocks >> nodeos.log 2>&1 &
+
+–––––––––––––––––– Check Endpoint ––––––––––––––––––
+
+curl http://localhost:8888/v1/chain/get_info
+
+
+––––––––––––––––– Stop Blockchain –––––––––––––––––
+
+pkill nodeos
+
+
+–––––––––––––––––––– Play Keosd ––––––––––––––––––––
+
+keosd &
+
+
+–––––––––––––––––––– Stop keosd ––––––––––––––––––––
+
+pkill keosd
+
+
+–––––––––––––––––– Read Progress –––––––––––––––––––
+
+tail nodeos.log
+
+
+––––––––––– Read Progress (in real time) –––––––––––
+
+tail -F nodeos.log
+
+                 ____     __ 
+ _      ______ _/ / /__  / /_
+| | /| / / __ `/ / / _ \/ __/
+| |/ |/ / /_/ / / /  __/ /_  
+|__/|__/\__,_/_/_/\___/\__/  
+                                  
+
+––––––––––––––––––– Open Wallet ––––––––––––––––––––
+
+cleos wallet open
+
+
+––––––––––––––––––– List Wallet ––––––––––––––––––––
+
+cleos wallet list
+
+
+––––––––––––––––– List of Pubkeys ––––––––––––––––––
+
+cleos wallet keys
+
+
+–––––––––––––––––– Importing keys ––––––––––––––––––
+
+cleos wallet import --private-key %TEXT%
+
+
+
+                                     __ 
+  ____ _______________  __  ______  / /_
+ / __ `/ ___/ ___/ __ \/ / / / __ \/ __/
+/ /_/ / /__/ /__/ /_/ / /_/ / / / / /_  
+\__,_/\___/\___/\____/\__,_/_/ /_/\__/  
+                                        
+
+–––––––––––––––––– Set Permission ––––––––––––––––––
+
+cleos set account permission [OPTIONS] %account% %permission% [authority] [parent]
+
+Where
+
+[OPTIONS] = See Options in Command Usage section below.
+account = The name of the account you want to set.
+permission = The name of the permission you want to set.
+authority = May be a public key, JSON string or filename defining the authority.
+parent = The parent of this permission, defaults to active.
+Note: The arguments and options enclosed in square brackets are optional.
+
+––––––––––––––– Enable Inline Actions ––––––––––––––
+
+cleos set account permission %account% %permission% --add-code -p %name%@%perm%
+
+Where
+
+account = The name of the account to add eosio.code.
+permission = The name of the permission to add eosio.code.
+--add-code = Tells the command to add eosio.code.
+-p %name%@%perm% = The permission used to authorize the transaction.
+
+––––––––––––––––––– Set Contract ––––––––––––––––––
+
+cleos set contract %account% %directory% [wasm-file] [abi-file]
+
+Where
+
+account = account to publish a contract for
+directory = the path containing the .wasm and .abi
+[wasm_file] = the file containing the contract wasm relative to directory
+[abi_file] = the ABI for the contract relative to directory
+
+By default, cleos treats the last folder specified in contract_folder as the contract name. Therefore, it expects .wasm and .abi files with that contract name as filename. This can be overridden with the optional wasm-file and abi-file parameters.
+
+––––––––––––––––––– Clear Contract –––––––––––––––––
+
+Cleos set contract %account% --clear
+
+––––––––––––––––––– Push an Action –––––––––––––––––
+
+cleos push action %account% %action% %data% -p %name%@%perm%
+
+Where
+
+account = the account providing the contract to execute
+action = a JSON string or filename defining the action to execute on the contract
+data = the arguments to the contract
+-p %name%@%perm% = The permission used to authorize the transaction.
+
+Push a transaction with a single action.
+
+––––––––––––––––––––– Table Info –––––––––––––––––––
+
+cleos get table %account% %scope% %table%
+
+Where
+
+account = the account who owns the table
+scope = the scope within the contract in which the table is found
+table = the name of the table as specified by the contract abi

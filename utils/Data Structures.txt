@@ -1,0 +1,59 @@
+–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+https://developers.eos.io/manuals/eosio.cdt/v1.8/structeosio_1_1permission__level
+
+struct eosio::permission_level
+
+Public Attributes
+Type	Name
+name	actor // Name of the account who owns this permission
+name	permission // Name of the permission
+
+Public Functions
+Type	Name
+	permission_level (name a, name p) // Construct a new permission level object with 	actor name and permission name
+	permission_level () // Default Constructor
+
+Friends
+Type			Name
+constexpr friend bool	operator== // Check equality of two permissions
+constexpr friend bool	operator< // Lexicographically compares two permissions
+
+–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+https://developers.eos.io/manuals/eosio.cdt/latest/classeosio_1_1multi__index
+
+When defining the structure of a multi_index table, you use a unique value as the primary key.
+
+class eosio::multi_index 
+
+eosio::multi_index<"%name%"_n, %struct%>;
+With the above multi_index configuration there is a table named %name%, that
+
+1. Uses the _n operator to define an eosio::name type and uses that to name the table. 
+2. Pass in the singular %struct% struct defined in the previous step.
+3. Declare this table's type. This type will be used to instantiate this table later.
+
+Public Functions
+Type		Name
+multi_index 	(name code, uint64_t scope) // Owner of the table and 
+		load_object_by_primary_iterator
+
+To instantiate a table, two parameters are required:
+
+1. The first parameter %code%, which specifies the owner of this table. As the owner, the account will be charged for storage costs. Also, only that account can modify or delete the data in this table unless another payer is specified. Here we use the get_self() function which will pass the name of this contract.
+
+2. The second parameter %scope% which ensures the uniqueness of the table in the scope of this contract. In this case, since we only have one table we can use the value from get_first_receiver(). The value returned from the get_first_receiver function is the account name on which this contract is deployed to.
+
+Note that scopes are used to logically separate tables within a multi-index (see the eosio.token contract multi-index for an example, which scopes the table on the token owner). Scopes were originally intended to separate table state in order to allow for parallel computation on the individual sub-tables. However, currently inter-blockchain communication has been prioritized over parallelism. Because of this, scopes are currently only used to logically separate the tables as in the case of eosio.token.
+
+A table's data structure cannot be modified while it has data in it. If you need to make changes to a table's data structure in any way, you first need to remove all its rows
+
+
+–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+%contractname%(name receiver, name code, datastream<const char*> ds):contract(receiver, code, ds) {}
+
+Our constructor will be responsible for initially setting up the contract.
+
+EOSIO contracts extend the contract class. Initialize our parent contract class with the code name of the contract and the receiver. The important parameter here is the code parameter which is the account on the blockchain that the contract is being deployed to.
