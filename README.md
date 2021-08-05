@@ -14,7 +14,7 @@ L'obiettivo di questa tesi è migliorare il sistema di gestione dei permessi bas
 
 ## Guida
 
-Placeholder text
+Si assumerà d'ora in poi che l'utente abbia già fatto la build del software EOSIO dalla sorgente, seguendo *attentamente* tutti i passi descritti dalla [guida ufficiale](https://developers.eos.io/manuals/eos/latest/install/build-from-source/index). Si assumerà inoltre che l'utente abbia effettuato anche la build degli eosio.contracts, sempre seguendo *attentamente* i passi descritti dalla [documentazione del sito](https://developers.eos.io/manuals/eosio.contracts/latest/build-and-deploy).
 
 ### Struttura della tabella 
 
@@ -63,7 +63,7 @@ The goal of this thesis is to enhance the role-based permission management syste
 
 ## Guide 
 
-Placeholder text
+We'll assume from now onwards that the user already built the EOSIO software from source, following *carefully* all the steps as described by the [official guide](https://developers.eos.io/manuals/eos/latest/install/build-from-source/index). We'll also assume that the user already executed the build of the eosio.contracts, once again *carefully* following the steps as described by the [site documentation](https://developers.eos.io/manuals/eosio.contracts/latest/build-and-deploy).
 
 ### Table structure
 
