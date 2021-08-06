@@ -16,7 +16,7 @@
                     "type": "uint64"
                 },
                 {
-                    "name": "owner",
+                    "name": "account",
                     "type": "string"
                 },
                 {
@@ -24,16 +24,8 @@
                     "type": "string"
                 },
                 {
-                    "name": "account",
+                    "name": "parent_perm",
                     "type": "string"
-                },
-                {
-                    "name": "accperm",
-                    "type": "string"
-                },
-                {
-                    "name": "weight",
-                    "type": "uint64"
                 },
                 {
                     "name": "attr",
@@ -46,33 +38,49 @@
             "base": "",
             "fields": [
                 {
-                    "name": "owner",
-                    "type": "string"
-                },
-                {
-                    "name": "perm",
-                    "type": "string"
-                },
-                {
                     "name": "account",
                     "type": "string"
                 },
                 {
-                    "name": "accperm",
+                    "name": "perm",
                     "type": "string"
                 }
             ]
         },
         {
-            "name": "erasetable",
+            "name": "eraseacc",
             "base": "",
             "fields": [
                 {
-                    "name": "owner",
+                    "name": "account",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "setattr",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
                     "type": "string"
                 },
                 {
                     "name": "perm",
+                    "type": "string"
+                },
+                {
+                    "name": "attr",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "subscribe",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
                     "type": "string"
                 }
             ]
@@ -82,7 +90,7 @@
             "base": "",
             "fields": [
                 {
-                    "name": "owner",
+                    "name": "account",
                     "type": "string"
                 },
                 {
@@ -90,16 +98,8 @@
                     "type": "string"
                 },
                 {
-                    "name": "account",
+                    "name": "parent_perm",
                     "type": "string"
-                },
-                {
-                    "name": "accperm",
-                    "type": "string"
-                },
-                {
-                    "name": "weight",
-                    "type": "uint64"
                 },
                 {
                     "name": "attr",
@@ -112,19 +112,11 @@
             "base": "",
             "fields": [
                 {
-                    "name": "owner",
-                    "type": "string"
-                },
-                {
-                    "name": "perm",
-                    "type": "string"
-                },
-                {
                     "name": "account",
                     "type": "string"
                 },
                 {
-                    "name": "accperm",
+                    "name": "perm",
                     "type": "string"
                 }
             ]
@@ -137,8 +129,18 @@
             "ricardian_contract": ""
         },
         {
-            "name": "erasetable",
-            "type": "erasetable",
+            "name": "eraseacc",
+            "type": "eraseacc",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "setattr",
+            "type": "setattr",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "subscribe",
+            "type": "subscribe",
             "ricardian_contract": ""
         },
         {

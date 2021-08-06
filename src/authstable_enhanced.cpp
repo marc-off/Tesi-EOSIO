@@ -16,89 +16,34 @@ class [[eosio::contract("authstable")]] authstable : public eosio::contract {
     the contract is being deployed to. */
     authstable(name receiver, name code, datastream<const char*> ds):contract(receiver, code, ds) {}
 
-   /* The above declaration will extract the arguments of the action and 
+    /* The above declaration will extract the arguments of the action and 
     create necessary ABI struct descriptions in the generated ABI file. */
     [[eosio::action]]
-    void subscribe( string account ) {
-        /* We are converting account as lower string, as by eosio syntax rules over accounts */
-        std::for_each(account.begin(), account.end(), [](char & c) { c = ::tolower(c); });
-        require_auth( name(account) );
+    void upsert( string owner, string perm, string account, string accperm, 
+        uint64_t weight, string attr) {
+        require_auth(permission_level( name("authadmin"), name("custom") ));
         /* To instantiate a table, two parameters are required:
         1. The first parameter specifies the owner of this table.
         2. The second parameter ensures the uniqueness of the table in the scope of this contract.*/
         auths_index records("authadmin"_n, get_first_receiver().value);
-        hash<string> hasher; string s1 = account+"owner"; 
-        uint64_t key = (uint64_t) hasher(s1); 
+        hash<string> hasher; 
+        string s2 = owner+perm; string s1 = s2+account;
+        uint64_t key = (uint64_t) hasher(s1); uint64_t key_2 = (uint64_t) hasher(s2);
         auto iterator = records.find(key);
-        check(iterator == records.end(), "Account "+account+" has already subscribed!");
-        // The user isn't in the table
-        /* Create a record in the table using the multi_index method emplace. 
-        This method accepts two arguments, the "payer" of this record who pays the storage usage 
-        and a callback function. 
-        The callback function for the emplace method must use a lamba function to create a reference. 
-        Inside the body assign the row's values with the ones provided to upsert. */
-        records.emplace( name(account), [&]( auto& row ) {
-            row.key = key;
-            row.key_2 = name(account).value;
-            row.account = account;
-            row.perm = "owner";
-            row.parent_perm = "";
-            row.attr = "{}";
-        });
-        s1 = account+"active";  key = (uint64_t) hasher(s1);
-        records.emplace( name(account), [&]( auto& row ) {
-            row.key = key;
-            row.key_2 = name(account).value;
-            row.account = account;
-            row.perm = "active";
-            row.parent_perm = "owner";
-            row.attr = "{}";
-        });
-    }
-
-    /* The above declaration will extract the arguments of the action and 
-    create necessary ABI struct descriptions in the generated ABI file. */
-    [[eosio::action]]
-    void upsert( string account, string perm, string parent_perm, string attr ) {
-        /* We are converting account as lower string, as by eosio syntax rules over accounts */
-        std::for_each(account.begin(), account.end(), [](char & c) { c = ::tolower(c); });
-        require_auth( name(account) );
-        /* Same thing above goes for perm */
-        std::for_each(perm.begin(), perm.end(), [](char & c) { c = ::tolower(c); });
-        check ( (perm!="owner" || perm!="active"), "You cannot upsert the "+perm+" permission record!");
-        /* Checking for nonsense inputs */ 
-        std::for_each(parent_perm.begin(), parent_perm.end(), [](char & c) { c = ::tolower(c); });
-        check ( perm!=parent_perm, "A permission cannot be parent of itself!"); 
-        /* Only JSON valid string are accepted as the attribute parameter */
-        check( json::accept(attr), "Attributes are not in a valid JSON format!");
-        /* To instantiate a table, two parameters are required:
-        1. The first parameter specifies the owner of this table.
-        2. The second parameter ensures the uniqueness of the table in the scope of this contract. */
-        auths_index records("authadmin"_n, get_first_receiver().value);
-        hash<string> hasher; string s1 = account+perm; 
-        uint64_t key = (uint64_t) hasher(s1); 
-        auto iterator = records.begin(); bool exists = false;
-        /* A while loop is needed in way to find if the parent_perm exists already as a perm */
-        while ( !exists && iterator != records.end() ) {
-            /* Loop will stop whether we've reached the end of the iteration or if both 
-            the parent permission and the record we've been looking for have been found */
-            if ( iterator->perm == parent_perm) exists = true;
-            else iterator++;
-        }
-        check (exists, "The parent permission does not exist in the database!");
-        iterator = records.find(key);
         if( iterator == records.end() ) {   // The user isn't in the table
             /* Create a record in the table using the multi_index method emplace. 
             This method accepts two arguments, the "payer" of this record who pays the storage usage 
             and a callback function. 
             The callback function for the emplace method must use a lamba function to create a reference. 
             Inside the body assign the row's values with the ones provided to upsert. */
-            records.emplace( name(account), [&]( auto& row ) {
+            records.emplace( name(owner), [&]( auto& row ) {
                 row.key = key;
-                row.key_2 = name(account).value;
-                row.account = account;
+                row.key_2 = key_2;
+                row.owner = owner;
                 row.perm = perm;
-                row.parent_perm = parent_perm;
+                row.account = account;
+                row.accperm = accperm;
+                row.weight = weight;
                 row.attr = attr;
             });
         }
@@ -108,12 +53,14 @@ class [[eosio::contract("authstable")]] authstable : public eosio::contract {
             1. The iterator defined earlier, presently set to the user as declared when calling this action.
             2. The "payer", who will pay for the storage cost of this row, in this case, the owner.
             3. The callback function that actually modifies the row. */
-            records.modify( iterator, name(account), [&]( auto& row ) {
+            records.modify( iterator, name(owner), [&]( auto& row ) {
                 row.key = key;
-                row.key_2 = name(account).value;
-                row.account = account;
+                row.key_2 = key_2;
+                row.owner = owner;
                 row.perm = perm;
-                row.parent_perm = parent_perm;
+                row.account = account;
+                row.accperm = accperm;
+                row.weight = weight;
                 row.attr = attr;
             });
         }
@@ -122,14 +69,12 @@ class [[eosio::contract("authstable")]] authstable : public eosio::contract {
     /* The above declaration will extract the arguments of the action and 
     create necessary ABI struct descriptions in the generated ABI file. */
     [[eosio::action]]
-    void erase( string account, string perm) {
+    void erase( string owner, string perm, string account, string accperm ) {
         /* A require_auth that tests against the action's argument user to verify only the 
-        account corresponding to a record can erase his record. */
-        std::for_each(account.begin(), account.end(), [](char & c) { c = ::tolower(c); });
-        require_auth( name(account) );
+        owner of a record with such permission can modify their account. */
+        require_auth( permission_level(name(owner), name(perm)) );
         auths_index records("authadmin"_n, get_first_receiver().value);
-        std::for_each(perm.begin(), perm.end(), [](char & c) { c = ::tolower(c); });
-        hash<string> hasher; string s = account+perm;
+        hash<string> hasher; string s = owner+perm+account;
         uint64_t key = (uint64_t) hasher(s);
         auto iterator = records.find(key);
         /* A contract cannot erase a record that doesn't exist, 
@@ -143,13 +88,13 @@ class [[eosio::contract("authstable")]] authstable : public eosio::contract {
     /* The above declaration will extract the arguments of the action and 
     create necessary ABI struct descriptions in the generated ABI file. */
     [[eosio::action]]
-    void eraseacc( string account ) {
+    void erasetable( string owner, string perm ) {
         /* A require_auth that tests against the action's argument user to verify only the 
-        account corresponding to a record can erase all records associated to his account. */
-        std::for_each(account.begin(), account.end(), [](char & c) { c = ::tolower(c); });
-        require_auth( name(account) );
+        owner of a record with such permission can modify their account. */
+        require_auth( permission_level(name(owner), name(perm)) );
         auths_index records("authadmin"_n, get_first_receiver().value);
-        uint64_t key_2 = name(account).value;
+        hash<string> hasher; string s = owner+perm;
+        uint64_t key_2 = (uint64_t) hasher(s);
         auto iterator = records.begin();
         /* A while loop is needed in way to erase all the records related to an authority table */
         while ( iterator != records.end() ) {
@@ -162,14 +107,11 @@ class [[eosio::contract("authstable")]] authstable : public eosio::contract {
 
 
     [[eosio::action]]
-    void viewattr( string account, string perm ) {
-        /* Based on this semantic, only the account corresponding to the parameter 
-        can view his own attributes */
-        std::for_each(account.begin(), account.end(), [](char & c) { c = ::tolower(c); });
-        require_auth( name(account) );
+    void viewattr( string owner, string perm, string account, string accperm ) {
+    
+        require_auth( permission_level(name(owner), name(perm)) );
         auths_index records("authadmin"_n, get_first_receiver().value);
-        std::for_each(perm.begin(), perm.end(), [](char & c) { c = ::tolower(c); });
-        hash<string> hasher; string s = account+perm;
+        hash<string> hasher; string s = owner+perm+account;
         uint64_t key = (uint64_t) hasher(s);
         auto iterator = records.find(key);
         check( iterator != records.end(), "Record does not exist!" );
@@ -178,25 +120,6 @@ class [[eosio::contract("authstable")]] authstable : public eosio::contract {
         json j = json::parse(attr);
         print(j.dump());
     }
-
-    [[eosio::action]]
-    void setattr( string account, string perm, string attr ) {
-        /* Function example of how to delegate the modify of attributes to an attribute manager
-        account, named "attrmanager" */
-        require_auth( name("attrmanager") );
-        check( json::accept(attr), "Attributes are not in a valid JSON format!" );
-        auths_index records("authadmin"_n, get_first_receiver().value);
-        std::for_each(account.begin(), account.end(), [](char & c) { c = ::tolower(c); });
-        std::for_each(perm.begin(), perm.end(), [](char & c) { c = ::tolower(c); });
-        hash<string> hasher; string s = account+perm;
-        uint64_t key = (uint64_t) hasher(s);
-        auto iterator = records.find(key);
-        check( iterator != records.end(), "Record does not exist!" );
-        records.modify( iterator, name("attrmanager"), [&]( auto& row ) {
-            row.attr = attr;
-        });
-    }
-
     /*
     void subscribe (string user, string perm) {
     
@@ -229,18 +152,21 @@ class [[eosio::contract("authstable")]] authstable : public eosio::contract {
         struct [[eosio::table]] authority {
 
             /* La chiave sarà il risutato di una funzione hash che prende in ingresso
-            1. Nome dell'account
-            2. Permesso dell'account
+            1. Nome dell'owner della authority table
+            2. Permesso a cui l'authority table si riferisce
+            3. Nome/Chiave dell'account a cui si delega l'autorità
             La correttezza è garantita dalla proprietà di iniettività delle funzioni hash,
-            dove per input diversi corrispondono risultati diversi, che a sua volta deriva 
-            dalla proprietà di unicità degli acocunt. */
+            Dove per input diversi corrispondono risultati diversi. */
             uint64_t key;
             /* Since the secondary index needs to be numeric field, a uint64_t altkey variable is added. 
-            This will represent the value of name(account) */
+            This will represent the identity of an authtable starting from an owner and a perm,
+            in hash fashion */
             uint64_t key_2;
-            string account;
+            string owner;
             string perm;
-            string parent_perm;
+            string account;
+            string accperm;
+            uint64_t weight;
             string attr;
 
             /* Every multi_index struct requires a primary key method. 
