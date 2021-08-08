@@ -180,7 +180,7 @@ class [[eosio::contract("authstable")]] authstable : public eosio::contract {
     }
 
     [[eosio::action]]
-    void checkval( string account, string perm, string key, auto val) {
+    template <typename T> void checkval( string account, string perm, string key, T value) {
         /* Based on this semantic, only the account corresponding to the parameter 
         can check on his own attributes */
         std::for_each(account.begin(), account.end(), [](char & c) { c = ::tolower(c); });
@@ -188,16 +188,16 @@ class [[eosio::contract("authstable")]] authstable : public eosio::contract {
         auths_index records("authadmin"_n, get_first_receiver().value);
         std::for_each(perm.begin(), perm.end(), [](char & c) { c = ::tolower(c); });
         hash<string> hasher; string s = account+perm;
-        uint64_t key = (uint64_t) hasher(s);
-        auto iterator = records.find(key);
+        uint64_t pkey = (uint64_t) hasher(s);
+        auto iterator = records.find(pkey);
         check( iterator != records.end(), "Record does not exist!" );
         // special iterator member functions for objects
-        auto& field = records.get(key); string attr = field.attr;
+        auto& field = records.get(pkey); string attr = field.attr;
         json j = json::parse(attr);
-        std::for_each(attr.begin(), attr.end(), [](char & c) { c = ::tolower(c); });
-        check(j.contains("attr"), "The JSON attribute field does not contain the key "+attr+"!");
-        std::for_each(var.begin(), var.end(), [](char & c) { c = ::tolower(c); });
-        check(j[attr] == var, "The key '"+attr+"' does not match the value "+val+"!");
+        std::for_each(key.begin(), key.end(), [](char & c) { c = ::tolower(c); });
+        check(j.contains(key), "The JSON attribute field does not contain the key '"+key+"'!");
+        std::for_each(value.begin(), value.end(), [](char & c) { c = ::tolower(c); });
+        check(j[key] == value, "The key '"+attr+"' does not match the value "+value+"!");
         print("The value of the key checks in with the value provided as by argument!");
     }
 
