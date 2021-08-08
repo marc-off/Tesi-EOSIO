@@ -1,3 +1,8 @@
+/* Questa versione è stata tralasciata per il momento in quanto il suo sviluppo sarebbe proseguito per una
+direzione più intricata e complicata, lontana dagli obiettivi che sono stati prefissati per la tesi. 
+Se in futuro ci sarà il desiderio di adottare questa implementazione, si tenga in considerazione che le feature
+principali di questa sono: struttura con owner della authority table e il suo relativo permesso, con associato 
+il delegato e il permesso del delegato; l'idea di implementare un meccanismo di multisignature per queste due figure. */
 #include <eosio/eosio.hpp>
 #include <json.hpp>
 

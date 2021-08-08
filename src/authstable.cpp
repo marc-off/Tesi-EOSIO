@@ -129,15 +129,15 @@ class [[eosio::contract("authstable")]] authstable : public eosio::contract {
         require_auth( name(account) );
         auths_index records("authadmin"_n, get_first_receiver().value);
         std::for_each(perm.begin(), perm.end(), [](char & c) { c = ::tolower(c); });
-        hash<string> hasher; string s = account+perm;
-        uint64_t key = (uint64_t) hasher(s);
-        auto iterator = records.find(key);
-        /* A contract cannot erase a record that doesn't exist, 
-        so check that the record indeed exists before proceeding. */
-        check( iterator != records.end(), "Record does not exist!" );
-        /* Finally, call the erase method, to erase the iterator. 
-        Once the row is erased, the storage space will be free up for the original payer. */
-        records.erase(iterator);
+        auto iterator = records.begin();
+        /* A while loop is needed in way to erase all the records related to an account */
+        while ( iterator != records.end() ) {
+            /* Finally, call the erase method to erase the iterator, if the record is associate to such permission (whether parent or not). 
+            Once the row is erased, the storage space will be free up for the original payer. */
+            if ( iterator->parent_perm == perm || iterator->perm == perm ) iterator = records.erase(iterator);
+            /* This is possible because  */ 
+            iterator++;
+        }
     }
 
     /* The above declaration will extract the arguments of the action and 
@@ -151,12 +151,12 @@ class [[eosio::contract("authstable")]] authstable : public eosio::contract {
         auths_index records("authadmin"_n, get_first_receiver().value);
         uint64_t key_2 = name(account).value;
         auto iterator = records.begin();
-        /* A while loop is needed in way to erase all the records related to an authority table */
+        /* A while loop is needed in way to erase all the records related to an account */
         while ( iterator != records.end() ) {
-            /* Finally, call the erase method, to erase the iterator. 
+            /* Finally, call the erase method to erase the iterator, if the record is associate to such account. 
             Once the row is erased, the storage space will be free up for the original payer. */
             if ( iterator->key_2 == key_2) iterator = records.erase(iterator);
-            else iterator++;
+            iterator++;
         }
     }
 
@@ -177,6 +177,28 @@ class [[eosio::contract("authstable")]] authstable : public eosio::contract {
         auto& field = records.get(key); string attr = field.attr;
         json j = json::parse(attr);
         print(j.dump());
+    }
+
+    [[eosio::action]]
+    void checkval( string account, string perm, string key, auto val) {
+        /* Based on this semantic, only the account corresponding to the parameter 
+        can check on his own attributes */
+        std::for_each(account.begin(), account.end(), [](char & c) { c = ::tolower(c); });
+        require_auth( name(account) );
+        auths_index records("authadmin"_n, get_first_receiver().value);
+        std::for_each(perm.begin(), perm.end(), [](char & c) { c = ::tolower(c); });
+        hash<string> hasher; string s = account+perm;
+        uint64_t key = (uint64_t) hasher(s);
+        auto iterator = records.find(key);
+        check( iterator != records.end(), "Record does not exist!" );
+        // special iterator member functions for objects
+        auto& field = records.get(key); string attr = field.attr;
+        json j = json::parse(attr);
+        std::for_each(attr.begin(), attr.end(), [](char & c) { c = ::tolower(c); });
+        check(j.contains("attr"), "The JSON attribute field does not contain the key "+attr+"!");
+        std::for_each(var.begin(), var.end(), [](char & c) { c = ::tolower(c); });
+        check(j[attr] == var, "The key '"+attr+"' does not match the value "+val+"!");
+        print("The value of the key checks in with the value provided as by argument!");
     }
 
     [[eosio::action]]
